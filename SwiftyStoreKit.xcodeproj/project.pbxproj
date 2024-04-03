@@ -102,6 +102,10 @@
 		654288061E7B3A8800F61800 /* NetworkActivityIndicatorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F7DF6F1DCD4DF000835D30 /* NetworkActivityIndicatorManager.swift */; };
 		654288071E7B3E1500F61800 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F7DF681DCD4DF000835D30 /* AppDelegate.swift */; };
 		658A08431E2EC5120074A98F /* SwiftyStoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6502F62D1B985C40004E342D /* SwiftyStoreKit.framework */; };
+		65C6F1F42BBD5AAD00CC0EEC /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 65C6F1F32BBD5AAD00CC0EEC /* PrivacyInfo.xcprivacy */; };
+		65C6F1F52BBD5AAD00CC0EEC /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 65C6F1F32BBD5AAD00CC0EEC /* PrivacyInfo.xcprivacy */; };
+		65C6F1F62BBD5AAD00CC0EEC /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 65C6F1F32BBD5AAD00CC0EEC /* PrivacyInfo.xcprivacy */; };
+		65C6F1F72BBD5AAD00CC0EEC /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 65C6F1F32BBD5AAD00CC0EEC /* PrivacyInfo.xcprivacy */; };
 		65F7DF711DCD4DF000835D30 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F7DF681DCD4DF000835D30 /* AppDelegate.swift */; };
 		65F7DF721DCD4DF000835D30 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 65F7DF691DCD4DF000835D30 /* Assets.xcassets */; };
 		65F7DF731DCD4DF000835D30 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65F7DF6A1DCD4DF000835D30 /* LaunchScreen.storyboard */; };
@@ -236,6 +240,7 @@
 		654287F71E79F5A000F61800 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		654287F91E79F5A000F61800 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		658A083E1E2EC5120074A98F /* SwiftyStoreKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftyStoreKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		65C6F1F32BBD5AAD00CC0EEC /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = file; name = PrivacyInfo.xcprivacy; path = Sources/PrivacyInfo.xcprivacy; sourceTree = SOURCE_ROOT; };
 		65F7DF681DCD4DF000835D30 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		65F7DF691DCD4DF000835D30 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		65F7DF6B1DCD4DF000835D30 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -363,6 +368,7 @@
 				2F2B8B2E24A64CC100CEF088 /* SwiftyStoreKit.swift */,
 				2F2B8B2524A64CC000CEF088 /* SwiftyStoreKit+Types.swift */,
 				65F7DF931DCD536100835D30 /* Platforms */,
+				65C6F1F32BBD5AAD00CC0EEC /* PrivacyInfo.xcprivacy */,
 			);
 			path = SwiftyStoreKit;
 			sourceTree = "<group>";
@@ -715,6 +721,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65C6F1F62BBD5AAD00CC0EEC /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -732,6 +739,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65C6F1F42BBD5AAD00CC0EEC /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -755,6 +763,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65C6F1F72BBD5AAD00CC0EEC /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -762,6 +771,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65C6F1F52BBD5AAD00CC0EEC /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
