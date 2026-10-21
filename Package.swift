@@ -1,9 +1,9 @@
-// swift-tools-version:5.0
+// swift-tools-version:5.3
 import PackageDescription
 
 let package = Package(
     name: "SwiftyStoreKit",
-    platforms: [.iOS("15.0"), .macOS("10.13"), .tvOS("15.0"), .watchOS("10.0")],
+    platforms: [.iOS("9.0"), .macOS("10.10"), .tvOS("9.0"), .watchOS("6.2")],
     products: [
         // Products define the executables and libraries produced by a package, and make them visible to other packages.
         .library(
@@ -19,9 +19,12 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
             name: "SwiftyStoreKit",
-            dependencies: []),
+            dependencies: [],
+            exclude: ["Platforms"],
+            resources: [.process("PrivacyInfo.xcprivacy")]),
         .testTarget(
             name: "SwiftyStoreKitTests",
-            dependencies: ["SwiftyStoreKit"])
+            dependencies: ["SwiftyStoreKit"],
+            exclude: ["Info-Tests.plist"])
     ]
 )
