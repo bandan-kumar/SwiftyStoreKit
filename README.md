@@ -70,9 +70,9 @@ More info here: [The Future of SwiftyStoreKit: Maintainers Wanted](https://mediu
 ## Requirements
 If you've shipped an app in the last five years, you're probably good to go. Some features (like discounts) are only available on new OS versions, but most features are available as far back as:
 
-| iOS  | watchOS | tvOS | macOS | Mac Catalyst |
-| ---- | ------- | ---- | ----- | ------------ |
-| 15.0 | 10.0    | 15.0 | 10.13 | 13.0         |
+| iOS | watchOS | tvOS | macOS | Mac Catalyst |
+| --- | ------- | ---- | ----- | ------------ |
+| 9.0 | 6.2     | 9.0  | 10.10 | 13.0         |
 
 The `async` APIs described below require iOS 13+, macOS 10.15+, tvOS 13+, watchOS 6+ and Xcode 13+.
 

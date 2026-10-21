@@ -5,8 +5,7 @@ All notable changes to this project will be documented in this file.
 ## Unreleased
 
 * Add `async` versions of `retrieveProductsInfo`, `purchaseProduct`, `restorePurchases`, `verifyReceipt` and `fetchReceipt`. The callback-based versions are deprecated (with a message pointing to the replacement) but still work.
-* Raise the minimum deployment target to iOS 15 and tvOS 15 (required by current Xcode).
-* Add privacy manifest (`PrivacyInfo.xcprivacy`).
+* Add privacy manifest (`PrivacyInfo.xcprivacy`), bundled for Swift Package Manager (now `swift-tools-version:5.3`) and CocoaPods.
 * Fix crash on concurrent `retrieveProductsInfo` requests.
 * Cancel the receipt refresh request on deinit to avoid a background task warning.
 * iOS demo: adopt the UIScene lifecycle.
