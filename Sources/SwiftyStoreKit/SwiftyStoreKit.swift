@@ -30,7 +30,7 @@ public class SwiftyStoreKit {
     
     fileprivate let paymentQueueController: PaymentQueueController
     
-    fileprivate let receiptVerificator: InAppReceiptVerificator
+    let receiptVerificator: InAppReceiptVerificator
     
     init(productsInfoController: ProductsInfoController = ProductsInfoController(),
          paymentQueueController: PaymentQueueController = PaymentQueueController(paymentQueue: SKPaymentQueue.default()),
@@ -42,11 +42,11 @@ public class SwiftyStoreKit {
     }
     
     // MARK: private methods
-    fileprivate func retrieveProductsInfo(_ productIds: Set<String>, completion: @escaping (RetrieveResults) -> Void) -> InAppProductRequest {
+    func retrieveProductsInfo(_ productIds: Set<String>, completion: @escaping (RetrieveResults) -> Void) -> InAppProductRequest {
         return productsInfoController.retrieveProductsInfo(productIds, completion: completion)
     }
     
-    fileprivate func purchaseProduct(_ productId: String, quantity: Int = 1, atomically: Bool = true, applicationUsername: String = "", simulatesAskToBuyInSandbox: Bool = false, completion: @escaping ( PurchaseResult) -> Void) -> InAppProductRequest {
+    func purchaseProduct(_ productId: String, quantity: Int = 1, atomically: Bool = true, applicationUsername: String = "", simulatesAskToBuyInSandbox: Bool = false, completion: @escaping ( PurchaseResult) -> Void) -> InAppProductRequest {
         
         return retrieveProductsInfo(Set([productId])) { result -> Void in
             if let product = result.retrievedProducts.first {
@@ -64,14 +64,14 @@ public class SwiftyStoreKit {
         }
     }
     
-    fileprivate func purchase(product: SKProduct, quantity: Int, atomically: Bool, applicationUsername: String = "", simulatesAskToBuyInSandbox: Bool = false, paymentDiscount: PaymentDiscount? = nil, completion: @escaping (PurchaseResult) -> Void) {
+    func purchase(product: SKProduct, quantity: Int, atomically: Bool, applicationUsername: String = "", simulatesAskToBuyInSandbox: Bool = false, paymentDiscount: PaymentDiscount? = nil, completion: @escaping (PurchaseResult) -> Void) {
         paymentQueueController.startPayment(Payment(product: product, paymentDiscount: paymentDiscount, quantity: quantity, atomically: atomically, applicationUsername: applicationUsername, simulatesAskToBuyInSandbox: simulatesAskToBuyInSandbox) { result in
             
             completion(self.processPurchaseResult(result))
         })
     }
     
-    fileprivate func restorePurchases(atomically: Bool = true, applicationUsername: String = "", completion: @escaping (RestoreResults) -> Void) {
+    func restorePurchases(atomically: Bool = true, applicationUsername: String = "", completion: @escaping (RestoreResults) -> Void) {
         
         paymentQueueController.restorePurchases(RestorePurchases(atomically: atomically, applicationUsername: applicationUsername) { results in
             
@@ -137,7 +137,7 @@ public class SwiftyStoreKit {
 extension SwiftyStoreKit {
     
     // MARK: Singleton
-    fileprivate static let sharedInstance = SwiftyStoreKit()
+    static let sharedInstance = SwiftyStoreKit()
     
     // MARK: Public methods - Purchases
     
@@ -151,6 +151,11 @@ extension SwiftyStoreKit {
     /// - Parameter productIds: The set of product identifiers to retrieve corresponding products for
     /// - Parameter completion: handler for result
     /// - returns: A cancellable `InAppRequest` object 
+    @available(iOS, deprecated: 13.0, message: "Use the async `retrieveProductsInfo(_:)` instead.")
+    @available(macOS, deprecated: 10.15, message: "Use the async `retrieveProductsInfo(_:)` instead.")
+    @available(tvOS, deprecated: 13.0, message: "Use the async `retrieveProductsInfo(_:)` instead.")
+    @available(watchOS, deprecated: 6.0, message: "Use the async `retrieveProductsInfo(_:)` instead.")
+    @available(macCatalyst, deprecated: 13.0, message: "Use the async `retrieveProductsInfo(_:)` instead.")
     @discardableResult
     public class func retrieveProductsInfo(_ productIds: Set<String>, completion: @escaping (RetrieveResults) -> Void) -> InAppRequest {
         return sharedInstance.retrieveProductsInfo(productIds, completion: completion)
@@ -163,6 +168,11 @@ extension SwiftyStoreKit {
     ///  - Parameter applicationUsername: an opaque identifier for the user’s account on your system
     ///  - Parameter completion: handler for result
     ///  - returns: A cancellable `InAppRequest` object   
+    @available(iOS, deprecated: 13.0, message: "Use the async `purchaseProduct(_:quantity:atomically:applicationUsername:simulatesAskToBuyInSandbox:)` instead.")
+    @available(macOS, deprecated: 10.15, message: "Use the async `purchaseProduct(_:quantity:atomically:applicationUsername:simulatesAskToBuyInSandbox:)` instead.")
+    @available(tvOS, deprecated: 13.0, message: "Use the async `purchaseProduct(_:quantity:atomically:applicationUsername:simulatesAskToBuyInSandbox:)` instead.")
+    @available(watchOS, deprecated: 6.0, message: "Use the async `purchaseProduct(_:quantity:atomically:applicationUsername:simulatesAskToBuyInSandbox:)` instead.")
+    @available(macCatalyst, deprecated: 13.0, message: "Use the async `purchaseProduct(_:quantity:atomically:applicationUsername:simulatesAskToBuyInSandbox:)` instead.")
     @discardableResult
     public class func purchaseProduct(_ productId: String, quantity: Int = 1, atomically: Bool = true, applicationUsername: String = "", simulatesAskToBuyInSandbox: Bool = false, completion: @escaping (PurchaseResult) -> Void) -> InAppRequest {
         
@@ -176,6 +186,11 @@ extension SwiftyStoreKit {
     ///  - Parameter applicationUsername: an opaque identifier for the user’s account on your system
     ///  - Parameter product: optional discount to be applied. Must be of `SKProductPayment` type
     ///  - Parameter completion: handler for result
+    @available(iOS, deprecated: 13.0, message: "Use the async `purchaseProduct(_:quantity:atomically:applicationUsername:simulatesAskToBuyInSandbox:paymentDiscount:)` instead.")
+    @available(macOS, deprecated: 10.15, message: "Use the async `purchaseProduct(_:quantity:atomically:applicationUsername:simulatesAskToBuyInSandbox:paymentDiscount:)` instead.")
+    @available(tvOS, deprecated: 13.0, message: "Use the async `purchaseProduct(_:quantity:atomically:applicationUsername:simulatesAskToBuyInSandbox:paymentDiscount:)` instead.")
+    @available(watchOS, deprecated: 6.0, message: "Use the async `purchaseProduct(_:quantity:atomically:applicationUsername:simulatesAskToBuyInSandbox:paymentDiscount:)` instead.")
+    @available(macCatalyst, deprecated: 13.0, message: "Use the async `purchaseProduct(_:quantity:atomically:applicationUsername:simulatesAskToBuyInSandbox:paymentDiscount:)` instead.")
     public class func purchaseProduct(_ product: SKProduct, quantity: Int = 1, atomically: Bool = true, applicationUsername: String = "", simulatesAskToBuyInSandbox: Bool = false, paymentDiscount: PaymentDiscount? = nil, completion: @escaping ( PurchaseResult) -> Void) {
         
         sharedInstance.purchase(product: product, quantity: quantity, atomically: atomically, applicationUsername: applicationUsername, simulatesAskToBuyInSandbox: simulatesAskToBuyInSandbox, paymentDiscount: paymentDiscount, completion: completion)
@@ -185,6 +200,11 @@ extension SwiftyStoreKit {
     ///  - Parameter atomically: whether the product is purchased atomically (e.g. `finishTransaction` is called immediately)
     ///  - Parameter applicationUsername: an opaque identifier for the user’s account on your system
     ///  - Parameter completion: handler for result
+    @available(iOS, deprecated: 13.0, message: "Use the async `restorePurchases(atomically:applicationUsername:)` instead.")
+    @available(macOS, deprecated: 10.15, message: "Use the async `restorePurchases(atomically:applicationUsername:)` instead.")
+    @available(tvOS, deprecated: 13.0, message: "Use the async `restorePurchases(atomically:applicationUsername:)` instead.")
+    @available(watchOS, deprecated: 6.0, message: "Use the async `restorePurchases(atomically:applicationUsername:)` instead.")
+    @available(macCatalyst, deprecated: 13.0, message: "Use the async `restorePurchases(atomically:applicationUsername:)` instead.")
     public class func restorePurchases(atomically: Bool = true, applicationUsername: String = "", completion: @escaping (RestoreResults) -> Void) {
         
         sharedInstance.restorePurchases(atomically: atomically, applicationUsername: applicationUsername, completion: completion)
@@ -259,6 +279,11 @@ extension SwiftyStoreKit {
     /// - Parameter forceRefresh: If `true`, refreshes the receipt even if one already exists.
     /// - Parameter completion: handler for result
     /// - returns: A cancellable `InAppRequest` object 
+    @available(iOS, deprecated: 13.0, message: "Use the async `verifyReceipt(using:forceRefresh:)` instead.")
+    @available(macOS, deprecated: 10.15, message: "Use the async `verifyReceipt(using:forceRefresh:)` instead.")
+    @available(tvOS, deprecated: 13.0, message: "Use the async `verifyReceipt(using:forceRefresh:)` instead.")
+    @available(watchOS, deprecated: 6.0, message: "Use the async `verifyReceipt(using:forceRefresh:)` instead.")
+    @available(macCatalyst, deprecated: 13.0, message: "Use the async `verifyReceipt(using:forceRefresh:)` instead.")
     @discardableResult
     public class func verifyReceipt(using validator: ReceiptValidator, forceRefresh: Bool = false, completion: @escaping (VerifyReceiptResult) -> Void) -> InAppRequest? {
         
@@ -269,6 +294,11 @@ extension SwiftyStoreKit {
     /// - Parameter forceRefresh: If true, refreshes the receipt even if one already exists.
     /// - Parameter completion: handler for result
     /// - returns: A cancellable `InAppRequest` object 
+    @available(iOS, deprecated: 13.0, message: "Use the async `fetchReceipt(forceRefresh:)` instead.")
+    @available(macOS, deprecated: 10.15, message: "Use the async `fetchReceipt(forceRefresh:)` instead.")
+    @available(tvOS, deprecated: 13.0, message: "Use the async `fetchReceipt(forceRefresh:)` instead.")
+    @available(watchOS, deprecated: 6.0, message: "Use the async `fetchReceipt(forceRefresh:)` instead.")
+    @available(macCatalyst, deprecated: 13.0, message: "Use the async `fetchReceipt(forceRefresh:)` instead.")
     @discardableResult
     public class func fetchReceipt(forceRefresh: Bool, completion: @escaping (FetchReceiptResult) -> Void) -> InAppRequest? {
         
