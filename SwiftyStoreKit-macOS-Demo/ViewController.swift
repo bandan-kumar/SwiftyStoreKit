@@ -67,7 +67,8 @@ class ViewController: NSViewController {
 
     func getInfo(_ purchase: RegisteredPurchase) {
 
-        SwiftyStoreKit.retrieveProductsInfo([appBundleId + "." + purchase.rawValue]) { result in
+        Task {
+            let result = await SwiftyStoreKit.retrieveProductsInfo([appBundleId + "." + purchase.rawValue])
 
             self.showAlert(self.alertForProductRetrievalInfo(result))
         }
@@ -75,7 +76,8 @@ class ViewController: NSViewController {
 
     func purchase(_ purchase: RegisteredPurchase) {
 
-        SwiftyStoreKit.purchaseProduct(appBundleId + "." + purchase.rawValue, atomically: true) { result in
+        Task {
+            let result = await SwiftyStoreKit.purchaseProduct(appBundleId + "." + purchase.rawValue, atomically: true)
 
             if case .success(let purchase) = result {
                 // Deliver content from server, then:
@@ -92,7 +94,8 @@ class ViewController: NSViewController {
 
     @IBAction func restorePurchases(_ sender: Any?) {
 
-        SwiftyStoreKit.restorePurchases(atomically: true) { results in
+        Task {
+            let results = await SwiftyStoreKit.restorePurchases(atomically: true)
 
             for purchase in results.restoredPurchases where purchase.needsFinishTransaction {
                 // Deliver content from server, then:
@@ -105,20 +108,22 @@ class ViewController: NSViewController {
 
     @IBAction func verifyReceipt(_ sender: Any?) {
 
-        verifyReceipt(completion: { result in
+        Task {
+            let result = await validateReceipt()
             self.showAlert(self.alertForVerifyReceipt(result))
-        })
+        }
     }
-    
-    func verifyReceipt(completion: @escaping (VerifyReceiptResult) -> Void) {
-        
+
+    func validateReceipt() async -> VerifyReceiptResult {
+
         let appleValidator = AppleReceiptValidator(service: .production, sharedSecret: "your-shared-secret")
-        SwiftyStoreKit.verifyReceipt(using: appleValidator, completion: completion)
+        return await SwiftyStoreKit.verifyReceipt(using: appleValidator)
     }
 
     func verifyPurchase(_ purchase: RegisteredPurchase) {
 
-        verifyReceipt { result in
+        Task {
+            let result = await validateReceipt()
 
             switch result {
             case .success(let receipt):

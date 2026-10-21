@@ -70,9 +70,11 @@ More info here: [The Future of SwiftyStoreKit: Maintainers Wanted](https://mediu
 ## Requirements
 If you've shipped an app in the last five years, you're probably good to go. Some features (like discounts) are only available on new OS versions, but most features are available as far back as:
 
-| iOS | watchOS | tvOS | macOS | Mac Catalyst |
-| --- | ------- | ---- | ----- | ------------ |
-| 8.0 | 6.2     | 9.0  | 10.10 | 13.0         |
+| iOS  | watchOS | tvOS | macOS | Mac Catalyst |
+| ---- | ------- | ---- | ----- | ------------ |
+| 15.0 | 10.0    | 15.0 | 10.13 | 13.0         |
+
+The `async` APIs described below require iOS 13+, macOS 10.15+, tvOS 13+, watchOS 6+ and Xcode 13+.
 
 ## Installation
 There are a number of ways to install SwiftyStoreKit for your project. Swift Package Manager, CocoaPods, and Carthage integrations are the preferred and recommended approaches.
@@ -157,6 +159,39 @@ If there are no pending transactions, the completion block will **not** be calle
 Note that `completeTransactions()` **should only be called once** in your code, in `application(:didFinishLaunchingWithOptions:)`.
 
 ## Purchases
+
+### async/await
+Every one-shot callback API has an `async` counterpart, so the examples below can also be written like this:
+
+```swift
+let info = await SwiftyStoreKit.retrieveProductsInfo(["com.musevisions.SwiftyStoreKit.Purchase1"])
+
+switch await SwiftyStoreKit.purchaseProduct("com.musevisions.SwiftyStoreKit.Purchase1", atomically: true) {
+case .success(let purchase):
+    print("Purchase success: \(purchase.productId)")
+case .deferred(let purchase):
+    print("Purchase deferred (e.g. Ask to Buy): \(purchase.productId)")
+case .error(let error):
+    print("Purchase failed: \(error)")
+}
+
+let restored = await SwiftyStoreKit.restorePurchases(atomically: true)
+let receipt = await SwiftyStoreKit.verifyReceipt(using: validator)
+```
+
+The `async` functions return the same result types as the callback versions (failures are reported as `.error`, they are not thrown). The callback versions are deprecated on platforms that support `async` and will keep working.
+
+| Deprecated | Use instead |
+| ---------- | ----------- |
+| `retrieveProductsInfo(_:completion:)` | `retrieveProductsInfo(_:) async` |
+| `purchaseProduct(_:...completion:)` | `purchaseProduct(_:...) async` |
+| `restorePurchases(atomically:applicationUsername:completion:)` | `restorePurchases(atomically:applicationUsername:) async` |
+| `verifyReceipt(using:forceRefresh:completion:)` | `verifyReceipt(using:forceRefresh:) async` |
+| `fetchReceipt(forceRefresh:completion:)` | `fetchReceipt(forceRefresh:) async` |
+
+`completeTransactions`, `onEntitlementRevocation` and the other handler-based APIs register long-lived callbacks, so they are unchanged.
+
+> Note: cancelling the surrounding `Task` does not cancel the underlying StoreKit request.
 
 ### Retrieve products info
 ```swift

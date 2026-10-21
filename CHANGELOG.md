@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
+* Add `async` versions of `retrieveProductsInfo`, `purchaseProduct`, `restorePurchases`, `verifyReceipt` and `fetchReceipt`. The callback-based versions are deprecated (with a message pointing to the replacement) but still work.
+* Raise the minimum deployment target to iOS 15 and tvOS 15 (required by current Xcode).
+* Add privacy manifest (`PrivacyInfo.xcprivacy`).
+* Fix crash on concurrent `retrieveProductsInfo` requests.
+* Cancel the receipt refresh request on deinit to avoid a background task warning.
+* iOS demo: adopt the UIScene lifecycle.
+
 * Make `ProductsInfoController`'s `retrieveProductsInfo` thread safe ([#405]https://github.com/bizz84/SwiftyStoreKit/pull/495), related issues: [#344](https://github.com/bizz84/SwiftyStoreKit/issues/344) and [#468](https://github.com/bizz84/SwiftyStoreKit/issues/468)
 
 ## [0.15.0](https://github.com/bizz84/SwiftyStoreKit/releases/tag/0.15.0) Update project to Swift 5, Xcode 10.2

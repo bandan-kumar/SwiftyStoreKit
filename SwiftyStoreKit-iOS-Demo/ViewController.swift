@@ -119,7 +119,8 @@ class ViewController: UIViewController {
     func getInfo(_ purchase: RegisteredPurchase) {
 
         NetworkActivityIndicatorManager.networkOperationStarted()
-        SwiftyStoreKit.retrieveProductsInfo([appBundleId + "." + purchase.rawValue]) { result in
+        Task {
+            let result = await SwiftyStoreKit.retrieveProductsInfo([appBundleId + "." + purchase.rawValue])
             NetworkActivityIndicatorManager.networkOperationFinished()
 
             self.showAlert(self.alertForProductRetrievalInfo(result))
@@ -129,7 +130,8 @@ class ViewController: UIViewController {
     func purchase(_ purchase: RegisteredPurchase, atomically: Bool) {
 
         NetworkActivityIndicatorManager.networkOperationStarted()
-        SwiftyStoreKit.purchaseProduct(appBundleId + "." + purchase.rawValue, atomically: atomically) { result in
+        Task {
+            let result = await SwiftyStoreKit.purchaseProduct(appBundleId + "." + purchase.rawValue, atomically: atomically)
             NetworkActivityIndicatorManager.networkOperationFinished()
 
             if case .success(let purchase) = result {
@@ -151,7 +153,8 @@ class ViewController: UIViewController {
     @IBAction func restorePurchases() {
 
         NetworkActivityIndicatorManager.networkOperationStarted()
-        SwiftyStoreKit.restorePurchases(atomically: true) { results in
+        Task {
+            let results = await SwiftyStoreKit.restorePurchases(atomically: true)
             NetworkActivityIndicatorManager.networkOperationFinished()
 
             for purchase in results.restoredPurchases {
@@ -170,22 +173,24 @@ class ViewController: UIViewController {
     @IBAction func verifyReceipt() {
 
         NetworkActivityIndicatorManager.networkOperationStarted()
-        verifyReceipt { result in
+        Task {
+            let result = await validateReceipt()
             NetworkActivityIndicatorManager.networkOperationFinished()
             self.showAlert(self.alertForVerifyReceipt(result))
         }
     }
     
-    func verifyReceipt(completion: @escaping (VerifyReceiptResult) -> Void) {
+    func validateReceipt() async -> VerifyReceiptResult {
         
         let appleValidator = AppleReceiptValidator(service: .production, sharedSecret: "your-shared-secret")
-        SwiftyStoreKit.verifyReceipt(using: appleValidator, completion: completion)
+        return await SwiftyStoreKit.verifyReceipt(using: appleValidator)
     }
     
     func verifyPurchase(_ purchase: RegisteredPurchase) {
 
         NetworkActivityIndicatorManager.networkOperationStarted()
-        verifyReceipt { result in
+        Task {
+            let result = await validateReceipt()
             NetworkActivityIndicatorManager.networkOperationFinished()
 
             switch result {
@@ -222,7 +227,8 @@ class ViewController: UIViewController {
     func verifySubscriptions(_ purchases: Set<RegisteredPurchase>) {
         
         NetworkActivityIndicatorManager.networkOperationStarted()
-        verifyReceipt { result in
+        Task {
+            let result = await validateReceipt()
             NetworkActivityIndicatorManager.networkOperationFinished()
             
             switch result {
