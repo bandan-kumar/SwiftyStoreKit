@@ -25,6 +25,6 @@ let package = Package(
         .testTarget(
             name: "SwiftyStoreKitTests",
             dependencies: ["SwiftyStoreKit"],
-            exclude: ["Info-Tests.plist"])
+            exclude: ["Info-Tests.plist", "StoreKit2"])
     ]
 )

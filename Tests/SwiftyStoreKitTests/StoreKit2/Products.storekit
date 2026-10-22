@@ -1,0 +1,109 @@
+{
+  "identifier" : "5E1F7A10",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+    {
+      "displayPrice" : "0.99",
+      "familyShareable" : false,
+      "internalID" : "6450000001",
+      "localizations" : [
+        {
+          "description" : "A pile of coins",
+          "displayName" : "Coins",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.swiftystorekit.test.coins",
+      "referenceName" : "Coins",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "4.99",
+      "familyShareable" : false,
+      "internalID" : "6450000002",
+      "localizations" : [
+        {
+          "description" : "Unlock everything",
+          "displayName" : "Premium",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.swiftystorekit.test.premium",
+      "referenceName" : "Premium",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "21450000",
+      "localizations" : [
+
+      ],
+      "name" : "Plus",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "2.99",
+          "familyShareable" : false,
+          "groupNumber" : 2,
+          "internalID" : "6450000003",
+          "introductoryOffer" : {
+            "internalID" : "6450000013",
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P1W"
+          },
+          "localizations" : [
+            {
+              "description" : "Plus, billed monthly",
+              "displayName" : "Plus Monthly",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.swiftystorekit.test.plus.monthly",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Plus Monthly",
+          "subscriptionGroupID" : "21450000",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "29.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "6450000004",
+          "localizations" : [
+            {
+              "description" : "Plus, billed yearly",
+              "displayName" : "Plus Yearly",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.swiftystorekit.test.plus.yearly",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "Plus Yearly",
+          "subscriptionGroupID" : "21450000",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 3,
+    "minor" : 0
+  }
+}

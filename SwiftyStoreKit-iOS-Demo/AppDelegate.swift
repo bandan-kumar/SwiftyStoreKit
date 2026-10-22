@@ -30,7 +30,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
 
-        setupIAP()
+        // The unit tests use this app as their host. Don't register the StoreKit 1 transaction observer
+        // there, or it would compete with the StoreKit 2 tests for the same transactions.
+        if ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil {
+            setupIAP()
+        }
 
         return true
     }
