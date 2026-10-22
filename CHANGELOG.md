@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+* Add `SwiftyStoreKit2`, a StoreKit 2 based API next to the existing one (iOS 15+, macOS 12+, tvOS 15+, watchOS 8+): products, purchases, entitlements, transaction updates, restore, subscription state, introductory offer eligibility, refunds, manage subscriptions, offer code redemption and app transaction. Purely additive, see the README for the migration table.
 * Add `async` versions of `retrieveProductsInfo`, `purchaseProduct`, `restorePurchases`, `verifyReceipt` and `fetchReceipt`. The callback-based versions are deprecated (with a message pointing to the replacement) but still work.
 * Add privacy manifest (`PrivacyInfo.xcprivacy`), bundled for Swift Package Manager (now `swift-tools-version:5.3`) and CocoaPods.
 * Fix crash on concurrent `retrieveProductsInfo` requests.

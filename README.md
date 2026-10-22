@@ -470,6 +470,67 @@ From [Apple Docs - Offering Subscriptions](https://developer.apple.com/app-store
 You can verify all subscriptions within the same group with the `verifySubscriptions` method. [Learn more on the wiki](https://github.com/bizz84/SwiftyStoreKit/wiki/Subscription-Groups).
 
 
+## StoreKit 2 (`SwiftyStoreKit2`)
+
+`SwiftyStoreKit2` is a StoreKit 2 based API that lives **next to** the existing API. It is purely additive: nothing in `SwiftyStoreKit` changes when you update, and you can adopt it one call at a time.
+
+It requires iOS 15+, macOS 12+, tvOS 15+, watchOS 8+ and Xcode 13+. It uses StoreKit 2's own types (`Product`, `Transaction`, ...) and throws `SwiftyStoreKit2.StoreError` on failure. Transactions are verified by StoreKit on the device, so you do not need `verifyReceipt` or a receipt validator.
+
+```swift
+// At app launch, and keep it alive: renewals, Ask to Buy approvals, refunds, purchases from other devices...
+Task {
+    for await update in SwiftyStoreKit2.transactionUpdates() {
+        if case .verified(let transaction) = update { /* unlock or lock content */ }
+    }
+}
+
+// Products (invalid identifiers are reported too)
+let result = try await SwiftyStoreKit2.products(for: ["com.musevisions.SwiftyStoreKit.Purchase1"])
+
+// Purchase
+switch try await SwiftyStoreKit2.purchase(productId: "com.musevisions.SwiftyStoreKit.Purchase1") {
+case .success(let transaction): print("Purchased \(transaction.productID)")
+case .pending: print("Waiting for approval (Ask to Buy)")  // the result arrives through transactionUpdates()
+case .userCancelled: break
+}
+
+// What does the user own?
+let isPremium = await SwiftyStoreKit2.isEntitled(to: "com.musevisions.SwiftyStoreKit.Premium")
+
+// Subscriptions
+if let state = try await SwiftyStoreKit2.subscriptionState(forGroup: "21345678") {
+    print(state.isActive, state.willAutoRenew, state.expirationDate as Any)
+}
+let canUseIntroOffer = await SwiftyStoreKit2.isEligibleForIntroductoryOffer(product)
+
+// From a "Restore Purchases" button
+let restored = try await SwiftyStoreKit2.restorePurchases()
+```
+
+Also available: `purchase` options (quantity, `appAccountToken`, promotional offers), `finishAutomatically: false` with `finish(_:)`, `unfinishedTransactions()`, `latestTransaction(for:)`, `beginRefundRequest`, `showManageSubscriptions`, `presentOfferCodeRedeemSheet` (iOS) and `appTransaction()`.
+
+### Migrating from the original API
+
+| `SwiftyStoreKit` (StoreKit 1) | `SwiftyStoreKit2` (StoreKit 2) |
+| ----------------------------- | ------------------------------ |
+| `completeTransactions(atomically:completion:)` | `transactionUpdates(finishAutomatically:)` |
+| `retrieveProductsInfo` | `products(for:)` / `product(for:)` |
+| `purchaseProduct(..., atomically:)` | `purchase(..., finishAutomatically:)` |
+| `.deferred` purchase result | `.pending` outcome, resolved through `transactionUpdates()` |
+| `restorePurchases` | `restorePurchases()` (only needed from a user action) |
+| `finishTransaction` | `finish(_:)` |
+| `verifyReceipt`, `verifyPurchase` | built in: verified transactions, `isEntitled(to:)`, `currentEntitlements()` |
+| `verifySubscription(s)` | `subscriptionState(forGroup:)`, `subscriptionState(for:)` |
+| `onEntitlementRevocation` | revoked transactions arrive through `transactionUpdates()` |
+
+Things to know before you switch:
+
+* **Use one transaction listener, not both.** If `SwiftyStoreKit.completeTransactions` and `SwiftyStoreKit2.transactionUpdates()` are both running, each one receives the same purchases and both try to deliver and finish them. (The unit tests hit this: with both active, finishing failed with a StoreKit error.) Pick one at app launch.
+* **Existing purchases carry over.** Purchases made with the original API show up in `currentEntitlements()` and subscription state. Users do not need to restore.
+* **Receipts are not needed on the device.** If your server validates receipts, move to the App Store Server API and send it `transaction.jsonRepresentation` or the signed `jwsRepresentation` (`verifyReceipt` is deprecated by Apple).
+* **Restore is automatic** with StoreKit 2. Only call `restorePurchases()` from a user action, because it can ask the user to sign in.
+* **Entitlements are not receipts.** `currentEntitlements()` only contains non-consumables and subscriptions that are current and not revoked. Consumables are delivered once, when you receive the transaction.
+
 ## Notes
 The framework provides a simple block based API with robust error handling on top of the existing StoreKit framework. It does **NOT** persist in app purchases data locally. It is up to clients to do this with a storage solution of choice (i.e. NSUserDefaults, CoreData, Keychain).
 
